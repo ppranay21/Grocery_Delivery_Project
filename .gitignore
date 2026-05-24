@@ -1,0 +1,28 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+target/
+.vite/
+
+# Logs and local runtime files
+*.log
+backend.log
+backend.err.log
+vite.log
+vite.err.log
+vite-direct.log
+vite-direct.err.log
+static-server.log
+static-server.err.log
+
+# Environment overrides
+.env.local
+.env.*.local
+
+# Editor and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

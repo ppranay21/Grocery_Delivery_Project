@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-labelledby="title desc">
+  <title id="title">Fresh tomatoes</title>
+  <desc id="desc">A group of red tomatoes with green stems on a light background.</desc>
+  <rect width="800" height="600" fill="#f8fafc"/>
+  <ellipse cx="400" cy="478" rx="275" ry="46" fill="#d9e2ec"/>
+  <g transform="translate(104 126)">
+    <circle cx="178" cy="238" r="132" fill="#df2f2f"/>
+    <circle cx="178" cy="238" r="104" fill="#f04444"/>
+    <path d="M118 152c48-38 124-34 170 12-49-18-109-20-170-12z" fill="#ff6b6b" opacity=".55"/>
+    <path d="M178 117l22 48 58-21-36 48 50 29-60 2-8 59-26-53-54 26 28-54-43-39 59 9z" fill="#227a3a"/>
+    <path d="M178 117l7-64" stroke="#166534" stroke-width="18" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(318 82)">
+    <circle cx="178" cy="238" r="150" fill="#c92127"/>
+    <circle cx="178" cy="238" r="119" fill="#ef3b3b"/>
+    <path d="M114 139c58-48 143-40 194 11-63-22-128-25-194-11z" fill="#ff7777" opacity=".5"/>
+    <path d="M178 90l26 66 72-25-46 58 64 35-77 5-8 75-34-67-68 33 36-68-57-50 76 10z" fill="#248a45"/>
+    <path d="M178 91l11-73" stroke="#166534" stroke-width="20" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(252 252)">
+    <circle cx="178" cy="158" r="118" fill="#dc2626"/>
+    <circle cx="178" cy="158" r="92" fill="#f43f3f"/>
+    <path d="M127 85c43-31 103-29 144 8-48-14-94-16-144-8z" fill="#ff7a7a" opacity=".48"/>
+    <path d="M178 57l18 45 51-17-32 39 45 25-55 3-7 53-24-47-48 23 25-47-39-35 54 8z" fill="#238636"/>
+    <path d="M178 57l6-47" stroke="#166534" stroke-width="15" stroke-linecap="round"/>
+  </g>
+</svg>

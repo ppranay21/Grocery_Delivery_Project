@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: freshcart-backend
+    env: docker
+    rootDir: grocery-backend
+    plan: free
+    healthCheckPath: /api/health
+    envVars:
+      - key: DB_URL
+        sync: false
+      - key: DB_USERNAME
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: FRONTEND_URL
+        sync: false
