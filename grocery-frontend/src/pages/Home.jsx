@@ -88,10 +88,10 @@ function Home() {
               to={`/products?category=${encodeURIComponent(category.name)}`}
               className="category-card"
               style={{
-                "--category-image": `url(${category.image})`,
                 "--category-accent": category.accent,
               }}
             >
+              <img src={category.image} alt={category.name} loading="lazy" />
               <span>{category.name}</span>
             </Link>
           ))}

@@ -465,6 +465,7 @@ button {
   text-decoration: none;
   overflow: hidden;
   transition: 0.3s;
+  background-color: var(--category-accent);
   box-shadow: 0 8px 20px rgba(15, 23, 42, 0.12);
 }
 
@@ -472,16 +473,11 @@ button {
   content: "";
   position: absolute;
   inset: 0;
-  background-image:
-    linear-gradient(
-      180deg,
-      rgba(0, 0, 0, 0.05),
-      color-mix(in srgb, var(--category-accent) 72%, #000 28%)
-    ),
-    var(--category-image);
-  background-size: cover;
-  background-position: center;
+  background:
+    linear-gradient(180deg, rgba(15, 23, 42, 0.04), rgba(15, 23, 42, 0.52)),
+    linear-gradient(135deg, transparent 0%, var(--category-accent) 100%);
   transition: 0.3s;
+  z-index: 1;
 }
 
 .category-card::after {
@@ -491,11 +487,21 @@ button {
   border: 1px solid rgba(255, 255, 255, 0.45);
   border-radius: 8px;
   pointer-events: none;
+  z-index: 2;
+}
+
+.category-card img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: 0.3s;
 }
 
 .category-card span {
   position: relative;
-  z-index: 1;
+  z-index: 3;
   width: 100%;
   padding: 8px 10px;
   border-radius: 999px;
@@ -510,7 +516,13 @@ button {
 }
 
 .category-card:hover::before {
-  transform: scale(1.06);
+  background:
+    linear-gradient(180deg, rgba(15, 23, 42, 0.02), rgba(15, 23, 42, 0.38)),
+    linear-gradient(135deg, transparent 0%, var(--category-accent) 100%);
+}
+
+.category-card:hover img {
+  transform: scale(1.07);
 }
 
 .features-section {
