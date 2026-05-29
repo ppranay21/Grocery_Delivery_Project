@@ -18,7 +18,7 @@ export function ProductProvider({ children }) {
       setProductsLoading(true);
       setProductsError("");
 
-      const response = await API.get("/products");
+      const response = await API.get("/products?limit=100");
 
       setProducts(response.data);
       setProductsLoaded(true);

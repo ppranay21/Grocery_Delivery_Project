@@ -59,7 +59,10 @@ http
             return;
           }
 
-          res.writeHead(200, { "Content-Type": "text/html" });
+          res.writeHead(200, {
+            "Content-Type": "text/html",
+            "Cache-Control": "no-store",
+          });
           res.end(fallback);
         });
         return;
@@ -67,6 +70,7 @@ http
 
       res.writeHead(200, {
         "Content-Type": contentTypes[path.extname(filePath)] || "application/octet-stream",
+        "Cache-Control": "no-store",
       });
       res.end(data);
     });

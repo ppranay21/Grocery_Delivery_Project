@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Trash2, Minus, Plus } from "lucide-react";
 import { useCart } from "../context/CartContext";
+import { getProductImageUrl, handleProductImageError } from "../utils/images";
 
 function Cart() {
   const {
@@ -39,7 +40,11 @@ function Cart() {
         <div className="cart-items">
           {cartItems.map((item) => (
             <div className="cart-item" key={item.id}>
-              <img src={item.imageUrl} alt={item.name} />
+              <img
+                src={getProductImageUrl(item)}
+                alt={item.name}
+                onError={(event) => handleProductImageError(event, item.category)}
+              />
 
               <div className="cart-item-info">
                 <h3>{item.name}</h3>

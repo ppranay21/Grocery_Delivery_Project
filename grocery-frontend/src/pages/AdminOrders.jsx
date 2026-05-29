@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import API from "../api/axios";
+import { getProductImageUrl, handleProductImageError } from "../utils/images";
 
 function AdminOrders() {
   const [orders, setOrders] = useState([]);
@@ -119,7 +120,11 @@ function AdminOrders() {
 
               {order.items.map((item) => (
                 <div className="order-item" key={item.id}>
-                  <img src={item.imageUrl} alt={item.productName} />
+                  <img
+                    src={getProductImageUrl(item)}
+                    alt={item.productName}
+                    onError={(event) => handleProductImageError(event, item.category)}
+                  />
 
                   <div>
                     <h4>{item.productName}</h4>

@@ -3,7 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { ShoppingCart, ArrowLeft, PackageCheck } from "lucide-react";
 import { useCart } from "../context/CartContext";
 import { useProducts } from "../context/ProductContext";
-import { getOptimizedImageUrl } from "../utils/images";
+import { getProductImageUrl, handleProductImageError } from "../utils/images";
 
 function ProductDetails() {
   const { id } = useParams();
@@ -67,9 +67,10 @@ function ProductDetails() {
       <div className="product-details-card">
         <div className="product-details-image">
           <img
-            src={getOptimizedImageUrl(product.imageUrl, 900)}
+            src={getProductImageUrl(product, 900)}
             alt={product.name}
             decoding="async"
+            onError={(event) => handleProductImageError(event, product.category)}
           />
         </div>
 

@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { ChevronLeft, ChevronRight, Search, Truck, ShieldCheck, Clock } from "lucide-react";
 import ProductCard from "../components/ProductCard";
 import API from "../api/axios";
+import { getCategoryImageUrl } from "../utils/images";
 
 function Home() {
   const [products, setProducts] = useState([]);
@@ -50,37 +51,37 @@ function Home() {
   const categories = [
     {
       name: "Fruits",
-      image: "https://images.unsplash.com/photo-1490474418585-ba9bad8fd0ea",
+      image: getCategoryImageUrl("Fruits"),
       accent: "#f97316",
       position: "center",
     },
     {
       name: "Vegetables",
-      image: "https://images.unsplash.com/photo-1540420773420-3366772f4999",
+      image: getCategoryImageUrl("Vegetables"),
       accent: "#16a34a",
       position: "center",
     },
     {
       name: "Dairy",
-      image: "https://images.unsplash.com/photo-1488477181946-6428a0291777",
+      image: getCategoryImageUrl("Dairy"),
       accent: "#2563eb",
       position: "center",
     },
     {
       name: "Bakery",
-      image: "https://images.unsplash.com/photo-1549931319-a545dcf3bc73",
+      image: getCategoryImageUrl("Bakery"),
       accent: "#b45309",
       position: "center",
     },
     {
       name: "Meat",
-      image: "https://images.unsplash.com/photo-1607623814075-e51df1bdc82f",
+      image: getCategoryImageUrl("Meat"),
       accent: "#dc2626",
       position: "center",
     },
     {
       name: "Beverages",
-      image: "https://images.unsplash.com/photo-1544145945-f90425340c7e",
+      image: getCategoryImageUrl("Beverages"),
       accent: "#0891b2",
       position: "center",
     },
@@ -120,7 +121,7 @@ function Home() {
 
         <div className="hero-image">
           <img
-            src="https://images.unsplash.com/photo-1542838132-92c53300491e"
+            src="/hero.png"
             alt="Fresh groceries"
           />
         </div>
@@ -193,8 +194,12 @@ function Home() {
         </div>
 
         <div className="popular-grid">
-          {popularProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
+          {popularProducts.map((product, index) => (
+            <ProductCard
+              key={product.id}
+              product={product}
+              eager={index < 4}
+            />
           ))}
         </div>
 

@@ -5,6 +5,7 @@ import { useCart } from "../context/CartContext";
 import { useProducts } from "../context/ProductContext";
 import { useAuth } from "../context/AuthContext";
 import API from "../api/axios";
+import { getProductImageUrl, handleProductImageError } from "../utils/images";
 
 const emptyForm = {
   fullName: "",
@@ -289,7 +290,11 @@ function Checkout() {
           <div className="checkout-items">
             {cartItems.map((item) => (
               <div className="checkout-item" key={item.id}>
-                <img src={item.imageUrl} alt={item.name} />
+                <img
+                  src={getProductImageUrl(item)}
+                  alt={item.name}
+                  onError={(event) => handleProductImageError(event, item.category)}
+                />
 
                 <div>
                   <h4>{item.name}</h4>

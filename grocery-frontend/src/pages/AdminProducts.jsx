@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Trash2, PlusCircle, Pencil, X, Save } from "lucide-react";
 import { useProducts } from "../context/ProductContext";
+import { getProductImageUrl, handleProductImageError } from "../utils/images";
 
 const emptyForm = {
   name: "",
@@ -307,7 +308,11 @@ function AdminProducts() {
           ) : (
             products.map((product) => (
               <div className="admin-product-item" key={product.id}>
-                <img src={product.imageUrl} alt={product.name} />
+                <img
+                  src={getProductImageUrl(product)}
+                  alt={product.name}
+                  onError={(event) => handleProductImageError(event, product.category)}
+                />
 
                 <div className="admin-product-details">
                   <h3>{product.name}</h3>

@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { Search, SlidersHorizontal } from "lucide-react";
 import ProductCard from "../components/ProductCard";
 import { useProducts } from "../context/ProductContext";
+import { getCategoryImageUrl } from "../utils/images";
 
 function Products() {
   const {
@@ -13,8 +15,8 @@ function Products() {
   } = useProducts();
   const [searchParams, setSearchParams] = useSearchParams();
   const [search, setSearch] = useState("");
-  const [visibleCount, setVisibleCount] = useState(72);
-  const productsPerBatch = 72;
+  const [visibleCount, setVisibleCount] = useState(24);
+  const productsPerBatch = 24;
 
   useEffect(() => {
     fetchProducts().catch(() => {
@@ -31,6 +33,7 @@ function Products() {
     "Meat",
     "Beverages",
   ];
+  const shoppingMethods = ["Pickup", "Delivery", "Shipping"];
   const requestedCategory = searchParams.get("category");
   const category = categories.includes(requestedCategory)
     ? requestedCategory
@@ -39,6 +42,19 @@ function Products() {
   useEffect(() => {
     setVisibleCount(productsPerBatch);
   }, [search, category]);
+
+  const filteredProducts = useMemo(() => products.filter((product) => {
+    const matchesSearch = product.name
+      .toLowerCase()
+      .includes(search.toLowerCase());
+
+    const matchesCategory =
+      category === "All" || product.category === category;
+
+    return matchesSearch && matchesCategory;
+  }), [products, search, category]);
+  const visibleProducts = filteredProducts.slice(0, visibleCount);
+  const hasMoreProducts = visibleCount < filteredProducts.length;
 
   const handleCategoryChange = (nextCategory) => {
     if (nextCategory === "All") {
@@ -72,71 +88,109 @@ function Products() {
     );
   }
 
-  const filteredProducts = useMemo(() => products.filter((product) => {
-    const matchesSearch = product.name
-      .toLowerCase()
-      .includes(search.toLowerCase());
-
-    const matchesCategory =
-      category === "All" || product.category === category;
-
-    return matchesSearch && matchesCategory;
-  }), [products, search, category]);
-  const visibleProducts = filteredProducts.slice(0, visibleCount);
-  const hasMoreProducts = visibleCount < filteredProducts.length;
-
   return (
     <div className="products-page">
       <div className="products-header">
-        <h1>Shop Groceries</h1>
-        <p>Find fresh groceries and daily essentials.</p>
-      </div>
+        <div>
+          <p className="products-kicker">FreshCart grocery</p>
+          <h1>Groceries</h1>
+          <p>Shop fresh food, pantry staples, and daily essentials.</p>
+        </div>
 
-      <div className="products-filter">
-        <input
-          type="text"
-          placeholder="Search products..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-
-        <select
-          value={category}
-          onChange={(e) => handleCategoryChange(e.target.value)}
-        >
-          {categories.map((item) => (
-            <option key={item} value={item}>
-              {item}
-            </option>
+        <div className="club-fulfillment">
+          {shoppingMethods.map((method) => (
+            <button key={method} type="button">
+              {method}
+            </button>
           ))}
-        </select>
+        </div>
       </div>
 
-      <p className="products-count">
-        Showing {visibleProducts.length} of {filteredProducts.length} items
-      </p>
-
-      <div className="products-grid">
-        {filteredProducts.length > 0 ? (
-          visibleProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))
-        ) : (
-          <p className="no-products">No products found.</p>
-        )}
+      <div className="category-strip" aria-label="Shop by category">
+        {categories.filter((item) => item !== "All").map((item) => (
+          <button
+            key={item}
+            type="button"
+            className={category === item ? "active" : ""}
+            onClick={() => handleCategoryChange(item)}
+          >
+            <img src={getCategoryImageUrl(item)} alt="" />
+            <span>{item}</span>
+          </button>
+        ))}
       </div>
 
-      {hasMoreProducts && (
-        <div className="load-more-wrap">
+      <div className="club-products-layout">
+        <aside className="products-sidebar">
+          <div className="sidebar-title">
+            <SlidersHorizontal size={18} />
+            Filters
+          </div>
+
           <button
             type="button"
-            className="load-more-btn"
-            onClick={() => setVisibleCount((count) => count + productsPerBatch)}
+            className={category === "All" ? "sidebar-filter active" : "sidebar-filter"}
+            onClick={() => handleCategoryChange("All")}
           >
-            Load More
+            All grocery
           </button>
-        </div>
-      )}
+
+          {categories.filter((item) => item !== "All").map((item) => (
+            <button
+              key={item}
+              type="button"
+              className={category === item ? "sidebar-filter active" : "sidebar-filter"}
+              onClick={() => handleCategoryChange(item)}
+            >
+              {item}
+            </button>
+          ))}
+        </aside>
+
+        <section className="products-results">
+          <div className="products-toolbar">
+            <div className="products-search">
+              <Search size={18} />
+              <input
+                type="text"
+                placeholder="Search within groceries"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+            </div>
+
+            <div className="products-count">
+              Showing {visibleProducts.length} of {filteredProducts.length}
+            </div>
+          </div>
+
+          <div className="products-grid">
+            {filteredProducts.length > 0 ? (
+              visibleProducts.map((product, index) => (
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  eager={index < 8}
+                />
+              ))
+            ) : (
+              <p className="no-products">No products found.</p>
+            )}
+          </div>
+
+          {hasMoreProducts && (
+            <div className="load-more-wrap">
+              <button
+                type="button"
+                className="load-more-btn"
+                onClick={() => setVisibleCount((count) => count + productsPerBatch)}
+              >
+                Load More
+              </button>
+            </div>
+          )}
+        </section>
+      </div>
     </div>
   );
 }
