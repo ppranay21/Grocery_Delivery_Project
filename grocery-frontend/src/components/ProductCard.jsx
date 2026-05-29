@@ -19,7 +19,7 @@ function ProductCard({ product }) {
   };
 
   return (
-    <div className="product-card">
+    <div className="product-card" data-category={product.category}>
       <Link to={`/products/${product.id}`}>
         <img
           src={getOptimizedImageUrl(product.imageUrl, 360)}

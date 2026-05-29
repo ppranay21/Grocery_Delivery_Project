@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import ProductCard from "../components/ProductCard";
 import { useProducts } from "../context/ProductContext";
@@ -8,6 +8,8 @@ function Products() {
     useProducts();
   const [searchParams, setSearchParams] = useSearchParams();
   const [search, setSearch] = useState("");
+  const [visibleCount, setVisibleCount] = useState(72);
+  const productsPerBatch = 72;
 
   const categories = [
     "All",
@@ -22,6 +24,10 @@ function Products() {
   const category = categories.includes(requestedCategory)
     ? requestedCategory
     : "All";
+
+  useEffect(() => {
+    setVisibleCount(productsPerBatch);
+  }, [search, category]);
 
   const handleCategoryChange = (nextCategory) => {
     if (nextCategory === "All") {
@@ -55,7 +61,7 @@ function Products() {
     );
   }
 
-  const filteredProducts = products.filter((product) => {
+  const filteredProducts = useMemo(() => products.filter((product) => {
     const matchesSearch = product.name
       .toLowerCase()
       .includes(search.toLowerCase());
@@ -64,7 +70,9 @@ function Products() {
       category === "All" || product.category === category;
 
     return matchesSearch && matchesCategory;
-  });
+  }), [products, search, category]);
+  const visibleProducts = filteredProducts.slice(0, visibleCount);
+  const hasMoreProducts = visibleCount < filteredProducts.length;
 
   return (
     <div className="products-page">
@@ -93,15 +101,31 @@ function Products() {
         </select>
       </div>
 
+      <p className="products-count">
+        Showing {visibleProducts.length} of {filteredProducts.length} items
+      </p>
+
       <div className="products-grid">
         {filteredProducts.length > 0 ? (
-          filteredProducts.map((product) => (
+          visibleProducts.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))
         ) : (
           <p className="no-products">No products found.</p>
         )}
       </div>
+
+      {hasMoreProducts && (
+        <div className="load-more-wrap">
+          <button
+            type="button"
+            className="load-more-btn"
+            onClick={() => setVisibleCount((count) => count + productsPerBatch)}
+          >
+            Load More
+          </button>
+        </div>
+      )}
     </div>
   );
 }

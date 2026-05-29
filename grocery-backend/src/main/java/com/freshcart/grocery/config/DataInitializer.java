@@ -115,20 +115,45 @@ public class DataInitializer {
                 "Sparkling Drink", "Pantry Fresh Item", "Daily Grocery Pick",
                 "Family Value Pack", "Organic Market Item"
         };
-        String[] imageUrls = {
-                "https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6",
-                "https://images.unsplash.com/photo-1587132137056-bfbf0166836e",
-                "https://images.unsplash.com/photo-1447175008436-054170c2e979",
-                "https://images.unsplash.com/photo-1452195100486-9cc805987862",
-                "https://images.unsplash.com/photo-1509440159596-0249088772ff",
-                "https://images.unsplash.com/photo-1604503468506-a8da13d82791",
-                "https://images.unsplash.com/photo-1621506289937-a8e4df240d0b"
+        String[][] imageUrlsByCategory = {
+                {
+                        "https://images.unsplash.com/photo-1610832958506-aa56368176cf",
+                        "https://images.unsplash.com/photo-1547514701-42782101795e",
+                        "https://images.unsplash.com/photo-1464965911861-746a04b4bca6"
+                },
+                {
+                        "https://images.unsplash.com/photo-1540420773420-3366772f4999",
+                        "https://images.unsplash.com/photo-1447175008436-054170c2e979",
+                        "https://images.unsplash.com/photo-1604977042946-1eecc30f269e"
+                },
+                {
+                        "https://images.unsplash.com/photo-1628088062854-d1870b4553da",
+                        "https://images.unsplash.com/photo-1452195100486-9cc805987862",
+                        "https://images.unsplash.com/photo-1488477181946-6428a0291777"
+                },
+                {
+                        "https://images.unsplash.com/photo-1509440159596-0249088772ff",
+                        "https://images.unsplash.com/photo-1555507036-ab1f4038808a",
+                        "https://images.unsplash.com/photo-1549931319-a545dcf3bc73"
+                },
+                {
+                        "https://images.unsplash.com/photo-1607623814075-e51df1bdc82f",
+                        "https://images.unsplash.com/photo-1604503468506-a8da13d82791",
+                        "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2"
+                },
+                {
+                        "https://images.unsplash.com/photo-1544145945-f90425340c7e",
+                        "https://images.unsplash.com/photo-1621506289937-a8e4df240d0b",
+                        "https://images.unsplash.com/photo-1556679343-c7306c1976bc"
+                }
         };
 
         List<Product> products = new ArrayList<>();
 
         for (int index = 1; index <= 500; index++) {
             String category = categories[(index - 1) % categories.length];
+            int categoryIndex = (index - 1) % categories.length;
+            String[] categoryImages = imageUrlsByCategory[categoryIndex];
             String name = names[(index - 1) % names.length] + " " + index;
             BigDecimal price = BigDecimal.valueOf(1.49 + ((index % 35) * 0.35))
                     .setScale(2, java.math.RoundingMode.HALF_UP);
@@ -141,7 +166,7 @@ public class DataInitializer {
                     category,
                     price,
                     stock,
-                    imageUrls[(index - 1) % imageUrls.length],
+                    categoryImages[(index - 1) % categoryImages.length],
                     description,
                     longDescription
             ));

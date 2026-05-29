@@ -98,6 +98,13 @@ button {
   width: 220px;
 }
 
+.products-count {
+  color: #475569;
+  font-size: 14px;
+  font-weight: bold;
+  margin: -18px 0 18px;
+}
+
 .products-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(115px, 1fr));
@@ -133,6 +140,36 @@ button {
   font-size: 10px;
   font-weight: bold;
   margin-bottom: 4px;
+}
+
+.product-card[data-category="Fruits"] .product-category,
+.product-card[data-category="Fruits"] .product-price {
+  color: #f97316;
+}
+
+.product-card[data-category="Vegetables"] .product-category,
+.product-card[data-category="Vegetables"] .product-price {
+  color: #16a34a;
+}
+
+.product-card[data-category="Dairy"] .product-category,
+.product-card[data-category="Dairy"] .product-price {
+  color: #2563eb;
+}
+
+.product-card[data-category="Bakery"] .product-category,
+.product-card[data-category="Bakery"] .product-price {
+  color: #b45309;
+}
+
+.product-card[data-category="Meat"] .product-category,
+.product-card[data-category="Meat"] .product-price {
+  color: #dc2626;
+}
+
+.product-card[data-category="Beverages"] .product-category,
+.product-card[data-category="Beverages"] .product-price {
+  color: #0891b2;
 }
 
 .product-info h3 {
@@ -181,6 +218,22 @@ button {
   grid-column: 1 / -1;
   text-align: center;
   padding: 40px;
+}
+
+.load-more-wrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 26px;
+}
+
+.load-more-btn {
+  border: none;
+  background-color: #111827;
+  color: white;
+  padding: 11px 24px;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 14px;
 }
 
 @media (max-width: 1000px) {
