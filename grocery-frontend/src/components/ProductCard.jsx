@@ -52,7 +52,7 @@ function ProductCard({ product }) {
             onClick={handleAddToCart}
             disabled={isOutOfStock}
           >
-            <ShoppingCart size={14} />
+            <ShoppingCart size={12} />
             {isOutOfStock ? "Unavailable" : "Add"}
           </button>
         </div>
