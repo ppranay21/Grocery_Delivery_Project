@@ -41,33 +41,39 @@ function Home() {
   const categories = [
     {
       name: "Fruits",
-      image: "https://images.unsplash.com/photo-1610832958506-aa56368176cf",
+      image: "https://images.unsplash.com/photo-1490474418585-ba9bad8fd0ea",
       accent: "#f97316",
+      position: "center",
     },
     {
       name: "Vegetables",
       image: "https://images.unsplash.com/photo-1540420773420-3366772f4999",
       accent: "#16a34a",
+      position: "center",
     },
     {
       name: "Dairy",
-      image: "https://images.unsplash.com/photo-1628088062854-d1870b4553da",
+      image: "https://images.unsplash.com/photo-1488477181946-6428a0291777",
       accent: "#2563eb",
+      position: "center",
     },
     {
       name: "Bakery",
-      image: "https://images.unsplash.com/photo-1509440159596-0249088772ff",
+      image: "https://images.unsplash.com/photo-1549931319-a545dcf3bc73",
       accent: "#b45309",
+      position: "center",
     },
     {
       name: "Meat",
       image: "https://images.unsplash.com/photo-1607623814075-e51df1bdc82f",
       accent: "#dc2626",
+      position: "center",
     },
     {
       name: "Beverages",
       image: "https://images.unsplash.com/photo-1544145945-f90425340c7e",
       accent: "#0891b2",
+      position: "center",
     },
   ];
 
@@ -122,6 +128,7 @@ function Home() {
               className="category-card"
               style={{
                 "--category-accent": category.accent,
+                "--category-position": category.position,
               }}
             >
               <img src={category.image} alt={category.name} loading="lazy" />
