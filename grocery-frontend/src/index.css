@@ -118,6 +118,9 @@ button {
   border: 1px solid #eee;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   transition: 0.3s;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .product-card:hover {
@@ -129,10 +132,15 @@ button {
   height: 82px;
   object-fit: contain;
   background-color: #f8fafc;
+  display: block;
+  flex: 0 0 82px;
 }
 
 .product-info {
   padding: 8px;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
 }
 
 .product-category {
@@ -177,6 +185,11 @@ button {
   color: #1f2937;
   margin-bottom: 4px;
   line-height: 1.15;
+  min-height: 28px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .product-description {
@@ -185,12 +198,17 @@ button {
   line-height: 1.25;
   margin-bottom: 6px;
   min-height: 25px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .product-bottom {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-top: auto;
 }
 
 .product-price {
