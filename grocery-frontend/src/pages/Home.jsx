@@ -1,10 +1,43 @@
 import { Link } from "react-router-dom";
-import { Search, Truck, ShieldCheck, Clock } from "lucide-react";
+import { useMemo, useState } from "react";
+import { ChevronLeft, ChevronRight, Search, Truck, ShieldCheck, Clock } from "lucide-react";
 import ProductCard from "../components/ProductCard";
 import { useProducts } from "../context/ProductContext";
 
 function Home() {
   const { products } = useProducts();
+  const [popularStart, setPopularStart] = useState(0);
+  const visiblePopularCount = 4;
+  const popularProducts = useMemo(() => {
+    if (products.length <= visiblePopularCount) {
+      return products;
+    }
+
+    return Array.from({ length: visiblePopularCount }, (_, offset) => {
+      return products[(popularStart + offset) % products.length];
+    });
+  }, [products, popularStart]);
+
+  const showPreviousProducts = () => {
+    if (products.length === 0) {
+      return;
+    }
+
+    setPopularStart((current) =>
+      (current - visiblePopularCount + products.length) % products.length
+    );
+  };
+
+  const showNextProducts = () => {
+    if (products.length === 0) {
+      return;
+    }
+
+    setPopularStart((current) =>
+      (current + visiblePopularCount) % products.length
+    );
+  };
+
   const categories = [
     {
       name: "Fruits",
@@ -119,10 +152,32 @@ function Home() {
       </section>
 
       <section className="popular-section">
-        <h2>Popular Products</h2>
+        <div className="section-title-row">
+          <h2>Popular Products</h2>
+
+          <div className="product-slider-controls">
+            <button
+              type="button"
+              onClick={showPreviousProducts}
+              aria-label="Previous products"
+              disabled={products.length <= visiblePopularCount}
+            >
+              <ChevronLeft size={18} />
+            </button>
+
+            <button
+              type="button"
+              onClick={showNextProducts}
+              aria-label="Next products"
+              disabled={products.length <= visiblePopularCount}
+            >
+              <ChevronRight size={18} />
+            </button>
+          </div>
+        </div>
 
         <div className="popular-grid">
-          {products.slice(0, 4).map((product) => (
+          {popularProducts.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
         </div>
