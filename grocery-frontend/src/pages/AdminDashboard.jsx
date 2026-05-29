@@ -5,14 +5,18 @@ import { useProducts } from "../context/ProductContext";
 import API from "../api/axios";
 
 function AdminDashboard() {
-  const { products } = useProducts();
+  const { products, fetchProducts } = useProducts();
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
+    fetchProducts().catch((error) =>
+      console.error("Unable to load product totals", error)
+    );
+
     API.get("/admin/orders")
       .then((response) => setOrders(response.data))
       .catch((error) => console.error("Unable to load admin orders", error));
-  }, []);
+  }, [fetchProducts]);
 
   const totalRevenue = orders.reduce(
     (total, order) => total + Number(order.totalAmount),

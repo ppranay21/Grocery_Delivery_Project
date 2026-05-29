@@ -3,6 +3,7 @@ package com.freshcart.grocery.service;
 import com.freshcart.grocery.dto.ProductRequest;
 import com.freshcart.grocery.entity.Product;
 import com.freshcart.grocery.repository.ProductRepository;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -18,7 +19,12 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
-    public List<Product> getAllProducts() {
+    public List<Product> getAllProducts(Integer limit) {
+        if (limit != null && limit > 0) {
+            int safeLimit = Math.min(limit, 100);
+            return productRepository.findAll(PageRequest.of(0, safeLimit)).getContent();
+        }
+
         return productRepository.findAll();
     }
 

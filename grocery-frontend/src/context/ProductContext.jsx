@@ -1,14 +1,19 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useCallback, useContext, useState } from "react";
 import API from "../api/axios";
 
 const ProductContext = createContext();
 
 export function ProductProvider({ children }) {
   const [products, setProducts] = useState([]);
-  const [productsLoading, setProductsLoading] = useState(true);
+  const [productsLoading, setProductsLoading] = useState(false);
+  const [productsLoaded, setProductsLoaded] = useState(false);
   const [productsError, setProductsError] = useState("");
 
-  const fetchProducts = async () => {
+  const fetchProducts = useCallback(async ({ force = false } = {}) => {
+    if (productsLoaded && !force) {
+      return products;
+    }
+
     try {
       setProductsLoading(true);
       setProductsError("");
@@ -16,6 +21,7 @@ export function ProductProvider({ children }) {
       const response = await API.get("/products");
 
       setProducts(response.data);
+      setProductsLoaded(true);
 
       return response.data;
     } catch (error) {
@@ -38,13 +44,7 @@ export function ProductProvider({ children }) {
     } finally {
       setProductsLoading(false);
     }
-  };
-
-  useEffect(() => {
-    fetchProducts().catch(() => {
-      // Error message is shown through productsError.
-    });
-  }, []);
+  }, [products, productsLoaded]);
 
   const addProduct = async (productData) => {
     const response = await API.post("/products", {
@@ -90,6 +90,7 @@ export function ProductProvider({ children }) {
       value={{
         products,
         productsLoading,
+        productsLoaded,
         productsError,
         fetchProducts,
         addProduct,

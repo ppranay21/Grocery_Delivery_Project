@@ -5,7 +5,7 @@ import { useProducts } from "./ProductContext";
 const CartContext = createContext();
 
 export function CartProvider({ children }) {
-  const { products, productsLoading, productsError } = useProducts();
+  const { products, productsLoading, productsLoaded, productsError } = useProducts();
 
   const [cartItems, setCartItems] = useState(() => {
     const savedCart = localStorage.getItem("cartItems");
@@ -24,7 +24,7 @@ export function CartProvider({ children }) {
     - reduce cart quantity if available stock becomes lower
   */
   useEffect(() => {
-    if (productsLoading || productsError) {
+    if (!productsLoaded || productsLoading || productsError) {
       return;
     }
 
@@ -52,7 +52,7 @@ export function CartProvider({ children }) {
 
       return updatedItems;
     });
-  }, [products, productsLoading, productsError]);
+  }, [products, productsLoaded, productsLoading, productsError]);
 
   const getLatestProduct = (productId) => {
     return products.find((product) => product.id === productId);

@@ -20,8 +20,10 @@ public class ProductController {
     }
 
     @GetMapping
-    public List<Product> getAllProducts() {
-        return productService.getAllProducts();
+    public List<Product> getAllProducts(
+            @RequestParam(required = false) Integer limit
+    ) {
+        return productService.getAllProducts(limit);
     }
 
     @GetMapping("/{id}")

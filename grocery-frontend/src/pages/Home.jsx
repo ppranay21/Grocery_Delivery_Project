@@ -1,13 +1,22 @@
 import { Link } from "react-router-dom";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ChevronLeft, ChevronRight, Search, Truck, ShieldCheck, Clock } from "lucide-react";
 import ProductCard from "../components/ProductCard";
-import { useProducts } from "../context/ProductContext";
+import API from "../api/axios";
 
 function Home() {
-  const { products } = useProducts();
+  const [products, setProducts] = useState([]);
   const [popularStart, setPopularStart] = useState(0);
   const visiblePopularCount = 4;
+
+  useEffect(() => {
+    API.get("/products?limit=12")
+      .then((response) => setProducts(response.data))
+      .catch((error) => {
+        console.error("Failed to load featured products:", error);
+      });
+  }, []);
+
   const popularProducts = useMemo(() => {
     if (products.length <= visiblePopularCount) {
       return products;

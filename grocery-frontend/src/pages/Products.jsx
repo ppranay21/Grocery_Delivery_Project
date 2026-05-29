@@ -4,12 +4,23 @@ import ProductCard from "../components/ProductCard";
 import { useProducts } from "../context/ProductContext";
 
 function Products() {
-  const { products, productsLoading, productsError, fetchProducts } =
-    useProducts();
+  const {
+    products,
+    productsLoading,
+    productsLoaded,
+    productsError,
+    fetchProducts,
+  } = useProducts();
   const [searchParams, setSearchParams] = useSearchParams();
   const [search, setSearch] = useState("");
   const [visibleCount, setVisibleCount] = useState(72);
   const productsPerBatch = 72;
+
+  useEffect(() => {
+    fetchProducts().catch(() => {
+      // Error message is shown through productsError.
+    });
+  }, [fetchProducts]);
 
   const categories = [
     "All",
@@ -38,14 +49,6 @@ function Products() {
     setSearchParams({ category: nextCategory });
   };
 
-  if (productsLoading) {
-    return (
-      <div className="products-page">
-        <p className="products-message">Loading products...</p>
-      </div>
-    );
-  }
-
   if (productsError) {
     return (
       <div className="products-page">
@@ -57,6 +60,14 @@ function Products() {
         >
           Retry
         </button>
+      </div>
+    );
+  }
+
+  if (productsLoading || !productsLoaded) {
+    return (
+      <div className="products-page">
+        <p className="products-message">Loading products...</p>
       </div>
     );
   }

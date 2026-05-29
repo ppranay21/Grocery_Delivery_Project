@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Trash2, PlusCircle, Pencil, X, Save } from "lucide-react";
 import { useProducts } from "../context/ProductContext";
@@ -17,6 +17,9 @@ function AdminProducts() {
   const {
     products,
     productsLoading,
+    productsLoaded,
+    productsError,
+    fetchProducts,
     addProduct,
     deleteProduct,
     updateProduct,
@@ -28,6 +31,12 @@ function AdminProducts() {
   const [fieldErrors, setFieldErrors] = useState({});
 
   const isEditing = editingProductId !== null;
+
+  useEffect(() => {
+    fetchProducts().catch(() => {
+      // Existing error handling covers failed product loading.
+    });
+  }, [fetchProducts]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -127,7 +136,15 @@ function AdminProducts() {
     }
   };
 
-  if (productsLoading) {
+  if (productsError) {
+    return (
+      <div className="admin-page">
+        <p className="products-error">{productsError}</p>
+      </div>
+    );
+  }
+
+  if (productsLoading || !productsLoaded) {
     return (
       <div className="admin-page">
         <p className="products-message">Loading products...</p>

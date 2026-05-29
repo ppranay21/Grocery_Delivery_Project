@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { ShoppingCart, ArrowLeft, PackageCheck } from "lucide-react";
 import { useCart } from "../context/CartContext";
@@ -8,13 +8,33 @@ import { getOptimizedImageUrl } from "../utils/images";
 function ProductDetails() {
   const { id } = useParams();
   const { addToCart } = useCart();
-  const { products, productsLoading } = useProducts();
+  const {
+    products,
+    productsLoading,
+    productsLoaded,
+    productsError,
+    fetchProducts,
+  } = useProducts();
   const [quantity, setQuantity] = useState(1);
 
   const product = products.find((item) => item.id === Number(id));
   const isOutOfStock = product?.stock === 0;
 
-  if (productsLoading) {
+  useEffect(() => {
+    fetchProducts().catch(() => {
+      // Product not found state is shown below.
+    });
+  }, [fetchProducts]);
+
+  if (productsError) {
+    return (
+      <div className="product-details-page">
+        <p className="products-error">{productsError}</p>
+      </div>
+    );
+  }
+
+  if (productsLoading || !productsLoaded) {
     return (
       <div className="product-details-page">
         <p className="products-message">Loading product...</p>
