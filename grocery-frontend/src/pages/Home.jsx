@@ -6,12 +6,36 @@ import { useProducts } from "../context/ProductContext";
 function Home() {
   const { products } = useProducts();
   const categories = [
-    "Fruits",
-    "Vegetables",
-    "Dairy",
-    "Bakery",
-    "Meat",
-    "Beverages",
+    {
+      name: "Fruits",
+      image: "https://images.unsplash.com/photo-1610832958506-aa56368176cf",
+      accent: "#f97316",
+    },
+    {
+      name: "Vegetables",
+      image: "https://images.unsplash.com/photo-1540420773420-3366772f4999",
+      accent: "#16a34a",
+    },
+    {
+      name: "Dairy",
+      image: "https://images.unsplash.com/photo-1628088062854-d1870b4553da",
+      accent: "#2563eb",
+    },
+    {
+      name: "Bakery",
+      image: "https://images.unsplash.com/photo-1509440159596-0249088772ff",
+      accent: "#b45309",
+    },
+    {
+      name: "Meat",
+      image: "https://images.unsplash.com/photo-1607623814075-e51df1bdc82f",
+      accent: "#dc2626",
+    },
+    {
+      name: "Beverages",
+      image: "https://images.unsplash.com/photo-1544145945-f90425340c7e",
+      accent: "#0891b2",
+    },
   ];
 
   return (
@@ -60,11 +84,15 @@ function Home() {
         <div className="category-grid">
           {categories.map((category) => (
             <Link
-              key={category}
-              to={`/products?category=${encodeURIComponent(category)}`}
+              key={category.name}
+              to={`/products?category=${encodeURIComponent(category.name)}`}
               className="category-card"
+              style={{
+                "--category-image": `url(${category.image})`,
+                "--category-accent": category.accent,
+              }}
             >
-              {category}
+              <span>{category.name}</span>
             </Link>
           ))}
         </div>
