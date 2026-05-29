@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Configuration
@@ -18,7 +19,7 @@ public class DataInitializer {
     @Bean
     CommandLineRunner seedProducts(ProductRepository productRepository) {
         return args -> {
-            List<Product> products = List.of(
+            List<Product> products = new ArrayList<>(List.of(
                     product("Fresh Apples", "Fruits", "2.99", 100, "https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6", "Fresh and crispy red apples.", "These fresh apples are perfect for snacks, salads, juices, and desserts."),
                     product("Bananas", "Fruits", "1.49", 120, "https://images.unsplash.com/photo-1587132137056-bfbf0166836e", "Sweet ripe bananas.", "Naturally sweet bananas perfect for smoothies and healthy snacks."),
                     product("Organic Milk", "Dairy", "3.99", 80, "https://images.unsplash.com/photo-1550583724-b2692b85b150", "Fresh organic milk.", "Fresh organic milk sourced from trusted farms."),
@@ -69,7 +70,9 @@ public class DataInitializer {
                     product("Iced Tea", "Beverages", "3.29", 75, "https://images.unsplash.com/photo-1556679343-c7306c1976bc", "Chilled iced tea.", "Smooth iced tea for meals, picnics, and warm afternoons."),
                     product("Sparkling Water", "Beverages", "4.99", 90, "https://images.unsplash.com/photo-1564419320461-6870880221ad", "Crisp sparkling water.", "Refreshing sparkling water with a clean bubbly finish."),
                     product("Cold Brew Coffee", "Beverages", "5.49", 55, "https://images.unsplash.com/photo-1461023058943-07fcbe16d735", "Smooth cold brew coffee.", "Rich cold brew coffee for a chilled caffeine boost.")
-            );
+            ));
+
+            products.addAll(generatedProducts());
 
             products.forEach(product -> {
                 if (productRepository.findByNameIgnoreCase(product.getName()).isEmpty()) {
@@ -98,6 +101,53 @@ public class DataInitializer {
                 userRepository.saveAll(List.of(admin, demoUser));
             }
         };
+    }
+
+    private List<Product> generatedProducts() {
+        String[] categories = {
+                "Fruits", "Vegetables", "Dairy", "Bakery", "Meat", "Beverages"
+        };
+        String[] names = {
+                "Apple Pack", "Banana Bunch", "Citrus Mix", "Berry Box",
+                "Green Veggie Mix", "Root Vegetable Pack", "Fresh Salad Kit",
+                "Cheese Block", "Yogurt Cup", "Milk Bottle", "Bread Loaf",
+                "Bakery Snack", "Protein Pack", "Seafood Tray", "Juice Bottle",
+                "Sparkling Drink", "Pantry Fresh Item", "Daily Grocery Pick",
+                "Family Value Pack", "Organic Market Item"
+        };
+        String[] imageUrls = {
+                "https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6",
+                "https://images.unsplash.com/photo-1587132137056-bfbf0166836e",
+                "https://images.unsplash.com/photo-1447175008436-054170c2e979",
+                "https://images.unsplash.com/photo-1452195100486-9cc805987862",
+                "https://images.unsplash.com/photo-1509440159596-0249088772ff",
+                "https://images.unsplash.com/photo-1604503468506-a8da13d82791",
+                "https://images.unsplash.com/photo-1621506289937-a8e4df240d0b"
+        };
+
+        List<Product> products = new ArrayList<>();
+
+        for (int index = 1; index <= 500; index++) {
+            String category = categories[(index - 1) % categories.length];
+            String name = names[(index - 1) % names.length] + " " + index;
+            BigDecimal price = BigDecimal.valueOf(1.49 + ((index % 35) * 0.35))
+                    .setScale(2, java.math.RoundingMode.HALF_UP);
+            int stock = 25 + (index % 175);
+            String description = "Fresh " + category.toLowerCase() + " item for everyday shopping.";
+            String longDescription = name + " is a convenient grocery item selected for FreshCart customers.";
+
+            products.add(new Product(
+                    name,
+                    category,
+                    price,
+                    stock,
+                    imageUrls[(index - 1) % imageUrls.length],
+                    description,
+                    longDescription
+            ));
+        }
+
+        return products;
     }
 
     private Product product(
