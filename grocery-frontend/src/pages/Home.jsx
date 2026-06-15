@@ -4,6 +4,7 @@ import { ChevronLeft, ChevronRight, Search, Truck, ShieldCheck, Clock } from "lu
 import ProductCard from "../components/ProductCard";
 import API from "../api/axios";
 import { getCategoryImageUrl } from "../utils/images";
+import heroImage from "../assets/hero-groceries.png";
 
 function Home() {
   const [products, setProducts] = useState([]);
@@ -121,7 +122,7 @@ function Home() {
 
         <div className="hero-image">
           <img
-            src="/hero.png"
+            src={heroImage}
             alt="Fresh groceries"
           />
         </div>
